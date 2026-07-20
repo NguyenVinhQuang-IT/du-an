@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Công Cụ Đổi Tên File Hàng Loạt</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-icon">📁</div>
+            <div>
+                <h1>Đổi Tên File Hàng Loạt</h1>
+                <p class="subtitle">Công cụ đổi tên file nhanh chóng và tiện lợi</p>
+            </div>
+        </header>
+
+        <!-- 1. Chọn Thư Mục -->
+        <section class="card">
+            <div class="card-header">
+                <span class="step-badge">1</span>
+                <h2>Chọn Thư Mục</h2>
+            </div>
+            <div class="card-body folder-section">
+                <button class="btn btn-primary" onclick="chonThuMuc()">
+                    <span class="btn-icon">📂</span> Chọn thư mục
+                </button>
+                <div class="folder-path" id="folderPath">Chưa chọn thư mục...</div>
+            </div>
+        </section>
+
+        <!-- 2. Tùy Chọn Đổi Tên -->
+        <section class="card">
+            <div class="card-header">
+                <span class="step-badge">2</span>
+                <h2>Tùy Chọn Đổi Tên</h2>
+            </div>
+            <div class="card-body settings-section">
+                <div class="input-group">
+                    <label for="txtFind">Tìm chuỗi</label>
+                    <input type="text" id="txtFind" placeholder="Nhập chuỗi cần tìm...">
+                </div>
+                <div class="input-group">
+                    <label for="txtReplace">Thay bằng</label>
+                    <input type="text" id="txtReplace" placeholder="Nhập chuỗi thay thế...">
+                </div>
+                <div class="settings-buttons">
+                    <button class="btn btn-warning" onclick="xemTruoc()">
+                        <span class="btn-icon">👀</span> Xem trước
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="nhanDienKyTu()">
+                        <span class="btn-icon">🔍</span> Nhận diện ký tự
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Danh Sách File -->
+        <section class="card card-grow">
+            <div class="card-header">
+                <span class="step-badge">3</span>
+                <h2>Danh Sách File</h2>
+                <span class="file-count" id="fileCount">0 file</span>
+            </div>
+            <div class="card-body table-wrapper">
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên File Hiện Tại</th>
+                            <th>Tên File Mới</th>
+                        </tr>
+                    </thead>
+                    <tbody id="fileTableBody">
+                        <tr class="empty-row">
+                            <td colspan="3">
+                                <div class="empty-state">
+                                    <span class="empty-icon">📄</span>
+                                    <p>Chưa có file nào. Hãy chọn thư mục để bắt đầu.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 4. Các Nút Hành Động -->
+        <section class="actions-bar">
+            <div class="actions-left">
+                <button class="btn btn-success" onclick="doiTen()">
+                    <span class="btn-icon">✅</span> Thực Hiện Đổi Tên
+                </button>
+                <button class="btn btn-outline-info" onclick="copyTenDayDu()">
+                    <span class="btn-icon">📋</span> Copy tên (có đuôi)
+                </button>
+                <button class="btn btn-outline-info" onclick="copyTenKhongDuoi()">
+                    <span class="btn-icon">📄</span> Copy tên (không đuôi)
+                </button>
+            </div>
+            <div class="actions-right">
+                <span class="total-count" id="totalCount">Tổng số: 0 file</span>
+            </div>
+        </section>
+    </div>
+
+    <!-- Modal nhận diện ký tự -->
+    <div class="modal-overlay" id="modalOverlay" onclick="dongModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header">
+                <h3>🔍 Nhận Diện Ký Tự</h3>
+                <button class="modal-close" onclick="dongModal()">&times;</button>
+            </div>
+            <p class="modal-subtitle">Click vào ký tự để điền vào ô "Tìm chuỗi"</p>
+            <div class="tabs">
+                <button class="tab active" onclick="chuyenTab(this, 'tabKyTuDon')">Ký Tự Đơn</button>
+                <button class="tab" onclick="chuyenTab(this, 'tabChuoiPhoBien')">Chuỗi Phổ Biến</button>
+            </div>
+            <div class="tab-content active" id="tabKyTuDon"></div>
+            <div class="tab-content" id="tabChuoiPhoBien"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="dongModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
